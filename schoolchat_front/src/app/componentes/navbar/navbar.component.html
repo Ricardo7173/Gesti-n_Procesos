@@ -1,0 +1,21 @@
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="#">
+      <img src="https://tse4.mm.bing.net/th?id=OIG3.bNjJntcwWchMxkmRxg2E&pid=ImgGn" alt="Logo" width="30" height="30">
+      <span>AcademyApp</span>
+    </a>
+  </div>
+
+  <div class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item" routerLink="/home">Home</a>
+      <!-- Agregar más enlaces aquí -->
+    </div>
+    
+    <div class="navbar-end">
+      <a *ngIf="!isAuthenticated" class="navbar-item" routerLink="/login">Iniciar Sesión</a>
+      <a *ngIf="!isAuthenticated" class="navbar-item" routerLink='/register'>Registrarse</a>
+      <a *ngIf="isAuthenticated" class="navbar-item" (click)="logout()">Salir</a>
+    </div>
+  </div>
+</nav>

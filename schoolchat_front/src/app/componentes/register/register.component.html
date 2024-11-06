@@ -1,0 +1,21 @@
+<div class="register-container">
+  <div class="register-form">
+    <h2>Registro</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="register()">
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input id="email" formControlName="email" type="email">
+        <div *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched">
+          Correo electrónico inválido.
+        </div>
+      </div>
+    
+      <div>
+        <label for="socialLogin">¿Usar inicio de sesión social?</label>
+        <input id="socialLogin" formControlName="socialLogin" type="checkbox">
+      </div>
+    
+      <button type="submit" [disabled]="registerForm.invalid">Registrar</button>
+    </form>
+  </div>
+</div>

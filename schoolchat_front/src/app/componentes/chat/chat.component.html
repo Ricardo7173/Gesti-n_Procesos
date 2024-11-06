@@ -1,0 +1,90 @@
+<!-- Contenedor principal de chat -->
+<div class="sidebar">
+  <ul>
+    <li *ngFor="let group of groups" [class.selected]="group.groupId === groupId">
+      <img [src]="group.photoUrl" [alt]="group.name" (click)="changeGroup(group.groupId)">
+    </li>
+  </ul>
+  <button pButton type="button" icon="pi pi-plus" (click)="openGroupDialog()" title="Nuevo Grupo"></button>
+</div>
+
+<!-- Contenedor de chat -->
+<div class="chat-container">
+  <div class="chat">
+    <div class="chat-header">
+      <h2>{{channelName}}</h2>
+    </div>
+    <div class="chat-messages" #messageContainer>
+      <div class="message" *ngFor="let message of messages">
+        <div class="message-avatar">
+          <img [src]="message.avatar" alt="Avatar">
+        </div>
+        <div class="message-content">
+          <div class="message-user">{{ message.user }}</div>
+          <div class="message-text">{{ message.text }}</div>
+          <!-- Agregar la imagen si existe -->
+          <div class="message-image-container" *ngIf="message.imageUrl">
+            <img [src]="message.imageUrl" alt="Message Image" class="message-image">
+          </div>
+          <div class="message-time">{{ message.time }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input [(ngModel)]="newMessage" placeholder="Type your message..." (keyup.enter)="sendMessage()">
+      <input type="text" [(ngModel)]="imageUrl" placeholder="Enter image URL (optional)">
+      <button (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+  <!-- Selector de canales -->
+  <div class="sidebar-channels">
+    <ul>
+      <li class="channel" *ngFor="let channel of channels" (click)="changeChannel(channel.channelId)">
+        {{ channel.name }}
+      </li>
+    </ul>
+    <button pButton type="button" icon="pi pi-plus" (click)="openChannelDialog()" title="Nuevo Canal"></button>
+    <div class="invitation-code">
+      <h2>Invitar</h2>
+      <button pButton type="button" icon="pi pi-copy" (click)="copyCode()" title="Copiar Código"></button>
+    </div>
+  </div>
+  <!-- Lista de usuarios -->
+  <div class="sidebar-users">
+    <h2>Users</h2>
+    <ul class="users-list">
+      <li class="user" *ngFor="let user of users">
+        <img class="avatar" [src]="user.avatar" alt="Avatar">
+        <span>{{ user.username }}</span>
+        <button *ngIf="currentUserId != user.userId && isAdmin" mat-icon-button [matMenuTriggerFor]="menu" aria-label="User actions">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="kickUser(user.userId)">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Kick</span>
+          </button>
+        </mat-menu>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Modal para ingresar nombre de usuario -->
+  <div class="username-modal" *ngIf="showUsernameModal">
+    <div class="modal-content">
+      <h2>Enter your name</h2>
+      <input [(ngModel)]="tempUsername" placeholder="Your name" (keyup.enter)="setUsername()">
+      <button (click)="setUsername()">Join Chat</button>
+    </div>
+  </div>
+
+  <!-- Modal para cambiar nombre de usuario -->
+  <div class="change-user-modal" *ngIf="changeUserModal">
+    <div class="modal-content">
+      <h2>Enter your name</h2>
+      <input [(ngModel)]="tempUsername" placeholder="Your name" (keyup.enter)="confirmChangeUsername()">
+      <button (click)="confirmChangeUsername()">Join Chat</button>
+      <button (click)="cancelChangeUsername()">Cancel</button>
+    </div>
+  </div>
+</div>

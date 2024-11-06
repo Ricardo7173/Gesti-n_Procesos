@@ -1,0 +1,46 @@
+.page-container {
+    color: #000000;
+    position: relative;
+    min-height: 100vh;
+    overflow: hidden; /* Evita que el contenido sobresalga del contenedor */
+    margin-bottom: 60px; /* Ajusta el margen inferior para dejar espacio para el pie de página */
+  }
+  
+  .content-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    color: #000000;
+  }
+  
+  .content-container h1 {
+    color: #000000; /* Color blanco */
+    font-weight: bold; /* Texto más grueso */
+  }
+  
+  .footer {
+    margin-top: auto;
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    background-color: #5865F2; /* Puedes cambiar el color de fondo según tu diseño */
+    color: #fff; /* Puedes cambiar el color del texto según tu diseño */
+    padding: 20px 0;
+    clear: both; /* Asegura que el footer se mueva hacia abajo correctamente */
+    z-index: 1; /* O un número mayor si es necesario */
+  }
+
+  @media screen and (max-width: 768px) {
+    .footer {
+      margin-top: auto;
+      position: absolute;
+      bottom: 0%;
+      width: 100%;
+      background-color: #343a40; /* Puedes cambiar el color de fondo según tu diseño */
+      color: #fff; /* Puedes cambiar el color del texto según tu diseño */
+      padding: 20px 0;
+      clear: both; /* Asegura que el footer se mueva hacia abajo correctamente */
+      z-index: 1; /* O un número mayor si es necesario */
+    }
+  }
+  

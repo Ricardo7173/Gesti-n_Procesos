@@ -1,0 +1,28 @@
+services:
+ back:
+  build:
+    context: ./schoolchat_back
+    dockerfile: Dockerfile
+  ports: 
+    - "3000:3000"
+  restart: always
+ 
+ front:
+  build:
+    context: ./schoolchat_front
+    dockerfile: Dockerfile
+  depends_on:
+    - back
+  ports: 
+    - "80:80"
+  restart: always
+ 
+ db:
+  image: amazon/dynamodb-local
+  ports:
+    - "4000:8000"
+  environment:
+    - AWS_REGION=us-west-2
+    - AWS_ACCESS_KEY_ID=ACCESSKEY
+    - AWS_SECRET_ACCESS_KEY=SECRETKEY
+  restart: always

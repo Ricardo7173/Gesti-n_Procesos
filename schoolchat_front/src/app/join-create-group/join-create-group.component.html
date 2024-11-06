@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>{{ isCreatingGroup ? 'Crear Grupo' : 'Unirse a Grupo' }}</h2>
+
+<mat-dialog-content>
+  <button mat-button (click)="switchMode()">
+    {{ isCreatingGroup ? 'Unirse a Grupo' : 'Crear Grupo' }}
+  </button>
+
+  <div *ngIf="isCreatingGroup">
+    <form [formGroup]="createGroupForm" (ngSubmit)="createGroup()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre del Grupo</mat-label>
+        <input matInput formControlName="name">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>URL de la Foto</mat-label>
+        <input matInput formControlName="photoUrl">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="createGroupForm.invalid">Crear Grupo</button>
+    </form>
+  </div>
+
+  <div *ngIf="!isCreatingGroup">
+    <form [formGroup]="joinGroupForm" (ngSubmit)="joinGroup()">
+      <mat-form-field appearance="fill">
+        <mat-label>Código de Invitación</mat-label>
+        <input matInput formControlName="inviteCode" (input)="checkInviteCode()">
+      </mat-form-field>
+      <div *ngIf="groupDetails">
+        <h3>Detalles del Grupo:</h3>
+        <p>Nombre: {{ groupDetails.name }}</p>
+        <img [src]="groupDetails.photoUrl" alt="Foto del Grupo">
+      </div>
+      <div *ngIf="groupNotFound">
+        <p>Grupo no encontrado</p>
+      </div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!groupDetails">Unirse al Grupo</button>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cerrar</button>
+</mat-dialog-actions>

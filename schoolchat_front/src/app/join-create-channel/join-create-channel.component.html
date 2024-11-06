@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Crear Canal</h2>
+
+<mat-dialog-content>
+  <div>
+    <form [formGroup]="createChannelForm" (ngSubmit)="createChannel()">
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre del Canal</mat-label>
+        <input matInput formControlName="name" title="Nombre Canal">
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="createChannelForm.invalid">Crear Canal</button>
+    </form>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="dialogRef.close()">Cerrar</button>
+</mat-dialog-actions>
