@@ -1,28 +1,55 @@
 services:
- back:
-  build:
-    context: ./schoolchat_back
-    dockerfile: Dockerfile
-  ports: 
-    - "3000:3000"
-  restart: always
- 
- front:
-  build:
-    context: ./schoolchat_front
-    dockerfile: Dockerfile
-  depends_on:
-    - back
-  ports: 
-    - "80:80"
-  restart: always
- 
- db:
-  image: amazon/dynamodb-local
-  ports:
-    - "4000:8000"
-  environment:
-    - AWS_REGION=us-west-2
-    - AWS_ACCESS_KEY_ID=ACCESSKEY
-    - AWS_SECRET_ACCESS_KEY=SECRETKEY
-  restart: always
+  # Servicio del backend
+  back:
+    build:
+      context: ./schoolchat_back           # Ruta de contexto de construcción del backend
+      dockerfile: Dockerfile               # Archivo Dockerfile para construir la imagen
+    ports:
+      - "3000:3000"                        # Mapea el puerto 3000 de la máquina anfitriona al puerto 3000 del contenedor
+    restart: always                        # Reinicia el contenedor automáticamente si se detiene
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'                    # Limita el uso de CPU al 30%
+          memory: 200M                    # Limita el uso máximo de memoria a 200 MB
+        reservations:
+          cpus: '0.15'                    # Reserva el 15% de CPU para este contenedor
+          memory: 128M                    # Reserva 128 MB de memoria para este contenedor
+
+  # Servicio del frontend
+  front:
+    build:
+      context: ./schoolchat_front          # Ruta de contexto de construcción del frontend
+      dockerfile: Dockerfile               # Archivo Dockerfile para construir la imagen
+    depends_on:
+      - back                               # Asegura que el backend se inicie antes que el frontend
+    ports:
+      - "80:80"                            # Mapea el puerto 80 de la máquina anfitriona al puerto 80 del contenedor
+    restart: always                        # Reinicia el contenedor automáticamente si se detiene
+    deploy:
+      resources:
+        limits:
+          cpus: '0.30'                    # Limita el uso de CPU al 30%
+          memory: 200M                    # Limita el uso máximo de memoria a 200 MB
+        reservations:
+          cpus: '0.15'                    # Reserva el 15% de CPU para este contenedor
+          memory: 128M                    # Reserva 128 MB de memoria para este contenedor
+
+  # Servicio de la base de datos DynamoDB local
+  db:
+    image: amazon/dynamodb-local           # Imagen de DynamoDB local
+    ports:
+      - "4000:8000"                        # Mapea el puerto 8000 del contenedor al puerto 4000 de la máquina anfitriona
+    environment:
+      - AWS_REGION=us-west-2               # Configura la región de AWS
+      - AWS_ACCESS_KEY_ID=ACCESSKEY        # Clave de acceso (dummy en este caso)
+      - AWS_SECRET_ACCESS_KEY=SECRETKEY    # Clave secreta (dummy en este caso)
+    restart: always                        # Reinicia el contenedor automáticamente si se detiene
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'                    # Limita el uso de CPU al 25%
+          memory: 150M                    # Limita el uso máximo de memoria a 150 MB
+        reservations:
+          cpus: '0.10'                    # Reserva el 10% de CPU para este contenedor
+          memory: 50M                     # Reserva 50 MB de memoria para este contenedor
